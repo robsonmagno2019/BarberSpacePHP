@@ -66,9 +66,22 @@ Route::post('/barbershops', 'BarbershopController@storeJson');
 Route::get('/categories', 'CategoryController@indexJson');
 Route::get('/categories/{id}', 'CategoryController@showJson');
 Route::post('/categories', 'CategoryController@storeJson');
+Route::put('/categories/{id}', 'CategoryController@updateJson');
 
 // Rotas de Cliente
 Route::get('/customers', 'CustomerController@indexJson');
 Route::get('/customers/{id}', 'CustomerController@showJson');
 Route::post('/customers', 'CustomerController@storeJson');
 Route::put('/customers/{id}', 'CustomerController@updateJson');
+
+// Rotas de Servicos
+Route::get('/services', 'ServiceController@indexJson');
+Route::get('/services/{id}', 'ServiceController@showJson');
+Route::post('/services', 'ServiceController@storeJson');
+Route::put('/services/{id}', 'ServiceController@updateJson');
+
+// Rotas de Produtos
+Route::get('/products', 'ProductController@indexJson');
+Route::get('/products/{id}', 'ProductController@showJson');
+Route::post('/products', 'ProductController@storeJson');
+Route::put('/products/{id}', 'ProductController@updateJson');

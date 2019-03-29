@@ -73,7 +73,7 @@ class CategoryController extends Controller
 
     public function updateJson(Request $request, $id)
     {
-        $category = Category::with('barbershop', 'products', 'services')
+        $category = Category::with('barbershop')
                     ->where('id', $id)->get()->first();
 
         if (isset($category)) {

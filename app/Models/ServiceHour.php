@@ -12,4 +12,14 @@ class ServiceHour extends Model
         'period_id',
         'barbershop_id',
     ];
+
+    public function period()
+    {
+        return $this->belongsTo('App\Models\Period');
+    }
+
+    public function barbershop()
+    {
+        return $this->belongsTo('App\Models\Barbershop');
+    }
 }

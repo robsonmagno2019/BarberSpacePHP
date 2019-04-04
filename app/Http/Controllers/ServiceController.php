@@ -54,6 +54,20 @@ class ServiceController extends Controller
     {
     }
 
+    public function getServicesFromBarbershop($barbershop_id)
+    {
+        $services = Service::with('category')
+                    ->where('barbershop_id', $barbershop_id)->get();
+
+        if (isset($services)) {
+            return response()->json($services, 200);
+        }
+
+        return response()->json([
+            'message' => 'Nenhum serviço foi registrado!',
+        ], 404);
+    }
+
     public function showJson($id)
     {
         $service = Service::with('category', 'barbershop')

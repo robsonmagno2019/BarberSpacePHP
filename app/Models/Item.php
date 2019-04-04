@@ -45,7 +45,10 @@ class Item extends Model
         $result = false;
 
         if ($this->quantity > 0 && $this->price > 0) {
-            $result = true;
+            if ($this->product_id > 0 || $this->service_id > 0 &&
+            $this->scheduling_id > 0 || $this->order_id > 0) {
+                $result = true;
+            }
         } else {
             $result = false;
         }

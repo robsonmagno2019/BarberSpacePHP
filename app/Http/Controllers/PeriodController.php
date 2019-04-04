@@ -45,6 +45,19 @@ class PeriodController extends Controller
     {
     }
 
+    public function getByDescription($description)
+    {
+        $period = Period::where('description', $description)->get()->first();
+
+        if (isset($period)) {
+            return response()->json($period, 200);
+        }
+
+        return response()->json([
+            'message' => 'O período não foi encontrado!',
+        ], 404);
+    }
+
     public function showJson($id)
     {
         $period = Period::find($id);

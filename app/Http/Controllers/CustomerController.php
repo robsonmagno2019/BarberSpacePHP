@@ -34,26 +34,30 @@ class CustomerController extends Controller
         $date = new \DateTime();
         $date->format('Y-m-d H:i:s');
 
-        $user = new User();
-        $user->createdate = $date;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = $request->password; // Cryptografar
-        $user->active = true;
-        $user->is_superadmin = false;
-        $user->is_admin = false;
-        $user->is_barber = false;
-        $user->is_customer = true;
-        $user->save();
+        $userid = User::insertGetId([
+            'createdate' => $date,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password, // Cryptografar
+            'active' => true,
+            'is_superadmin' => false,
+            'is_admin' => false,
+            'is_barber' => false,
+            'is_customer' => true,
+        ]);
 
-        $userDB = User::where('id', $user->id)->get()->first();
+        $user = User::where('id', $userid)->get()->first();
 
-        if (isset($userDB)) {
+        if (isset($userid)) {
             $customer = new Customer();
             $customer->birthDate = $request->birthDate;
             $customer->phone = $request->phone;
             $customer->photo = $request->photo;
-            $customer->user()->associate($userDB);
+
+            if (isset($user)) {
+                $customer->user()->associate($user);
+            }
+
             $customer->save();
 
             return response()->json($customer, 201);

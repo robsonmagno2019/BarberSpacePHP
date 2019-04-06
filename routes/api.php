@@ -105,6 +105,7 @@ Route::prefix('/servicehours')->group(function () {
     Route::get('/', 'ServiceHourController@indexJson');
     Route::get('/{id}', 'ServiceHourController@showJson');
     Route::get('/getperiod/{description}', 'ServiceHourController@getPeriod');
+    Route::post('/', 'ServiceHourController@storeJson');
 });
 
 // Rotas de Servicos

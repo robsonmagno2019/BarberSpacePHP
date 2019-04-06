@@ -37,31 +37,45 @@ class BarberController extends Controller
         $date = new \DateTime();
         $date->format('Y-m-d H:i:s');
 
-        $user = new User();
-        $user->createdate = $date;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = $request->password; // Cryptografar
-        $user->active = true;
-        $user->is_superadmin = false;
-        $user->is_admin = false;
-        $user->is_barber = true;
-        $user->is_customer = false;
-        $user->save();
+        $userid = User::insertGetId([
+            'createdate' => $date,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password, // Cryptografar
+            'active' => true,
+            'is_superadmin' => false,
+            'is_admin' => false,
+            'is_barber' => true,
+            'is_customer' => false,
+        ]);
 
-        $userDB = User::where('id', $user->id)->get()->first();
+        $user = User::where('id', $userid)->get()->first();
         $typeofremuneration = TypeOfRemuneration::find($request->type_of_remuneration_id);
         $color = Color::find($request->color_id);
         $barbershop = Barbershop::find($request->barbershop_id);
 
         if (isset($userDB)) {
             $barber = new Barber();
-            $barber->type_of_remuneration()->associate($typeofremuneration);
+
+            if (isset($typeofremuneration)) {
+                $barber->type_of_remuneration()->associate($typeofremuneration);
+            }
+
             $barber->percentage = $request->percentage;
             $barber->salary = $request->salary;
-            $barber->color()->associate($color);
-            $barber->user()->associate($userDB);
-            $barber->barbershop()->associate($barbershop);
+
+            if (isset($color)) {
+                $barber->color()->associate($color);
+            }
+
+            if (isset($userDB)) {
+                $barber->user()->associate($user);
+            }
+
+            if (isset($barbershop)) {
+                $barber->barbershop()->associate($barbershop);
+            }
+
             $barber->save();
 
             return response()->json($barber, 201);

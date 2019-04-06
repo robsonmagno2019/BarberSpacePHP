@@ -19,6 +19,26 @@ class Scheduling extends Model
         'barbershop_id',
     ];
 
+    public function service_hour()
+    {
+        return $this->belongsTo('App\Models\ServiceHour');
+    }
+
+    public function color()
+    {
+        return $this->belongsTo('App\Models\Color');
+    }
+
+    public function scheduling_status()
+    {
+        return $this->belongsTo('App\Models\SchedulingStatus');
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo('App\Models\Customer');
+    }
+
     public function admin()
     {
         return $this->belongsTo('App\Models\Admin');
@@ -32,26 +52,6 @@ class Scheduling extends Model
     public function barbershop()
     {
         return $this->belongsTo('App\Models\Barbershop');
-    }
-
-    public function color()
-    {
-        return $this->belongsTo('App\Models\Color');
-    }
-
-    public function customer()
-    {
-        return $this->belongsTo('App\Models\Customer');
-    }
-
-    public function service_hour()
-    {
-        return $this->belongsTo('App\Models\ServiceHour');
-    }
-
-    public function scheduling_status()
-    {
-        return $this->belongsTo('App\Models\SchedulingStatus');
     }
 
     public function items()

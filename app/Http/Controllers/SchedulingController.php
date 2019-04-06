@@ -3,13 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Admin;
-use App\Models\Barber;
-use App\Models\Barbershop;
-use App\Models\Color;
-use App\Models\Customer;
+use App\Models\Item;
 use App\Models\ServiceHour;
 use App\Models\Scheduling;
+use App\Models\SchedulingStatus;
 
 class SchedulingController extends Controller
 {
@@ -40,67 +37,34 @@ class SchedulingController extends Controller
         $date = new \DateTime();
         $date->format('Y-m-d H:i:s');
 
-        $serviceHour = ServiceHour::find($request->service_hour_id);
-        $color = Color::find($request->color_id);
         $schedulingStatus = SchedulingStatus::Where('description', 'Criado')->get()->first();
-        $customer = Customer::with('user')->where('customer_id', $request->customer_id)->get()->first();
-        $admin = Admin::with('user')->where('admin_id', $request->admin_id)->get()->first();
-        $barber = Barber::with('user')->where('barber_id', $request->barber_id)->get()->first();
-        $barbershop = Barbershop::where('barbershop_id', $request->barbershop_id)->get()->first();
 
-        $scheduling = new Scheduling();
-        $scheduling->createdate = $date;
-        $scheduling->schedulingdate = $request->schedulingdate;
+        $schedulingid = Scheduling::insertGetId([
+            'createdate' => $date,
+            'schedulingdate' => $request->schedulingdate,
+            'service_hour_id' => $request->service_hour_id,
+            'color_id' => $request->color_id,
+            'scheduling_status_id' => $schedulingStatus->id,
+            'customeravulse' => $request->customeravulse,
+            'customer_id' => $request->customer_id,
+            'admin_id' => $request->admin_id,
+            'barber_id' => $request->barber_id,
+            'barbershop_id' => $request->barbershop_id,
+        ]);
 
-        if (isset($serviceHour)) {
-            $scheduling->service_hour()->associate($serviceHour);
-        }
+        $array = $request->items;
 
-        if (isset($color)) {
-            $scheduling->color()->associate($color);
-        }
+        foreach ($array as $item) {
+            $newItem = new Item();
+            $newItem->quantity = $item['quantity'];
+            $newItem->price = $item['price'];
+            $newItem->product_id = $item['product_id'];
+            $newItem->service_id = $item['service_id'];
+            $newItem->scheduling_id = $schedulingid;
+            $newItem->order_id = $item['order_id'];
 
-        if (isset($schedulingStatus)) {
-            $scheduling->scheduling_status()->associate($schedulingStatus);
-        }
-
-        $scheduling->customeravulse = $request->customeravulse;
-
-        if (isset($customer)) {
-            $scheduling->customer()->associate($customer);
-        }
-
-        if (isset($admin)) {
-            $scheduling->admin()->associate($admin);
-        }
-
-        if (isset($barber)) {
-            $scheduling->barber()->associate($barber);
-        }
-
-        if (isset($barbershop)) {
-            $scheduling->barbershop()->associate($barbershop);
-        }
-
-        $scheduling->save();
-
-        $schedulingDB = Scheduling::where('id', $scheduling->id)->get()->first();
-
-        foreach ($request->items as $itemJson) {
-            $item = new Item();
-            $item->quantity = $itemJson->quantity;
-            $item->price = $itemJson->price;
-
-            if (isset($itemJson->service_id)) {
-                $item->service_id = $itemJson->service_id;
-            }
-
-            if (isset($itemJson->scheduling_id)) {
-                $item->scheduling()->associate($schedulingDB);
-            }
-
-            if ($item->valid()) {
-                $item->save();
+            if ($newItem->valid()) {
+                $newItem->save();
             }
         }
 
@@ -116,6 +80,7 @@ class SchedulingController extends Controller
         $scheduling = Scheduling::with('service_hour', 'color', 'scheduling_status',
                     'customer', 'admin', 'barber', 'barbershop', 'items')
                     ->where('id', $id)->get()->first();
+
         if (isset($scheduling)) {
             return response()->json($scheduling, 200);
         }

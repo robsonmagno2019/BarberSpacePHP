@@ -35,19 +35,19 @@ class AdminController extends Controller
         $date = new \DateTime();
         $date->format('Y-m-d H:i:s');
 
-        $user = new User();
-        $user->createdate = $date;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = $request->password; // Cryptografar
-        $user->active = true;
-        $user->is_superadmin = false;
-        $user->is_admin = false;
-        $user->is_barber = false;
-        $user->is_customer = true;
-        $user->save();
+        $userid = User::insertGetId([
+            'createdate' => $date,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password, // Cryptografar
+            'active' => true,
+            'is_superadmin' => false,
+            'is_admin' => false,
+            'is_barber' => false,
+            'is_customer' => true,
+        ]);
 
-        $userDB = User::where('id', $user->id)->get()->first();
+        $user = User::where('id', $userid)->get()->first();
         $color = Color::find($request->color_id);
 
         if (isset($userDB)) {
@@ -55,8 +55,15 @@ class AdminController extends Controller
             $admin->document = $request->document;
             $admin->phone = $request->phone;
             $admin->photo = $request->photo;
-            $admin->color()->associate($color);
-            $admin->user()->associate($userDB);
+
+            if (isset($color)) {
+                $admin->color()->associate($color);
+            }
+
+            if (isset($user)) {
+                $admin->user()->associate($user);
+            }
+
             $admin->save();
 
             return response()->json($admin, 201);

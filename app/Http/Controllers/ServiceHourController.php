@@ -41,8 +41,15 @@ class ServiceHourController extends Controller
         $serviceHour = new ServiceHour();
         $serviceHour->createdate = $date;
         $serviceHour->description = $request->description;
-        $serviceHour->period()->associate($period);
-        $serviceHour->barbershhop()->associate($barbershop);
+
+        if (isset($period)) {
+            $serviceHour->period()->associate($period);
+        }
+
+        if (isset($barbershop)) {
+            $serviceHour->barbershop()->associate($barbershop);
+        }
+
         $serviceHour->save();
 
         return response()->json($serviceHour, 201);

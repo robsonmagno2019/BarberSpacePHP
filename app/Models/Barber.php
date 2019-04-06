@@ -61,4 +61,19 @@ class Barber extends Model
     {
         return $this->hasMany('App\Models\Avaliation');
     }
+
+    public function verifySalary()
+    {
+        $date = new \DateTime();
+        $date->format('Y-m-d H:i:s');
+
+        foreach ($this->salaries() as $salary) {
+            $period = new \DateInterval('P1M');
+            $date = new \DateTime();
+            $dateNow->format('Y-m-d H:i:s');
+
+            if ($salary->createdate->add($period)->getdate() == $dateNow->getdate()) {
+            }
+        }
+    }
 }

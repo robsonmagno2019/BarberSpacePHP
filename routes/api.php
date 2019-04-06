@@ -147,3 +147,17 @@ Route::prefix('/salepromotions')->group(function () {
     Route::post('/', 'SalePromotionController@storeJson');
     Route::put('/{id}', 'SalePromotionController@updateJson');
 });
+
+// Rotas de Contratos
+Route::prefix('/barbershopagreements')->group(function () {
+    Route::get('/', 'BarbershopAgreementController@indexJson');
+    Route::get('/{id}', 'BarbershopAgreementController@showJson');
+    Route::post('/', 'BarbershopAgreementController@storeJson');
+    Route::put('/{id}', 'BarbershopAgreementController@updateJson');
+});
+
+// Rotas de Salarios
+Route::prefix('/salaries')->group(function () {
+    Route::get('/barber/{id}', 'SalaryController@indexJson');
+    Route::get('/{id}', 'SalaryController@showJson');
+});

@@ -49,7 +49,7 @@ class Order extends Model
         return $this->hasMany('App\Models\Item');
     }
 
-    public function subtotal()
+    public function calculatePercetage()
     {
         $serviceValue = 0;
         $productValue = 0;
@@ -69,12 +69,28 @@ class Order extends Model
         } else {
             $this->valueadmin += $serviceValue - (($serviceValue * $this->barber->percentage) / 100);
         }
+    }
+
+    public function subtotal()
+    {
+        $serviceValue = 0;
+        $productValue = 0;
+
+        foreach ($this->items() as $item) {
+            if ($item->product() != null) {
+                $productValue += $item->price * $item->quantity;
+            } else {
+                $serviceValue += $item->price * $item->quantity;
+            }
+        }
 
         return $serviceValue + $productValue;
     }
 
     public function add($item)
     {
+        $item->order_id = $this->id;
+
         if ($item->valid()) {
         }
     }

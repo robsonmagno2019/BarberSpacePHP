@@ -42,7 +42,7 @@ class OrderController extends Controller
         $orderStatus = OrderStatus::find($request->order_status_id);
         $customer = Customer::find($request->customer_id);
         $admin = Admin::find($request->admin_id);
-        $barber = Barber::find($request->barber_id);
+        $barber = Barber::with('type_of_remuneration')->where('id', $request->barber_id)->get()->first();
         $barbershop = Barbershop::find($request->barbershop_id);
 
         $order = new Order();
@@ -96,6 +96,10 @@ class OrderController extends Controller
                 $item->save();
             }
         }
+
+        $orderDB->calculatePercetage();
+
+        $orderDB->save();
 
         return response()->json($order, 201);
     }

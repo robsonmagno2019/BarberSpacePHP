@@ -39,67 +39,69 @@ class OrderController extends Controller
         $date = new \DateTime();
         $date->format('Y-m-d H:i:s');
 
-        $orderStatus = OrderStatus::find($request->order_status_id);
-        $customer = Customer::find($request->customer_id);
-        $admin = Admin::find($request->admin_id);
-        $barber = Barber::with('type_of_remuneration')->where('id', $request->barber_id)->get()->first();
-        $barbershop = Barbershop::find($request->barbershop_id);
+        $orderStatus = OrderStatus::Where('description', 'Criado')->get()->first();
+        //$customer = Customer::find($request->customer_id);
+        //$admin = Admin::find($request->admin_id);
+        //$barber = Barber::with('type_of_remuneration')->where('id', $request->barber_id)->get()->first();
+        //$barbershop = Barbershop::find($request->barbershop_id);
 
-        $order = new Order();
-        $order->createdate = $date;
-        $order->number = 1;
+        $orderid = Order::insertGetId([
+            'createdate' => $date,
+            'number' => 1,
+            'order_status_id' => $orderStatus->id,
+            'customeravulse' => $request->customeravulse,
+            'customer_id' => $request->customer_id,
+            'admin_id' => $request->admin_id,
+            'barber_id' => $request->barber_id,
+            'barbershop_id' => $request->barbershop_id,
+            'valueadmin' => $request->valueadmin,
+            'valuebarber' => $request->valuebarber,
+        ]);
 
-        if (isset($orderStatus)) {
-            $order->order_status()->associate($orderStatus);
+        // if (isset($orderStatus)) {
+        //     $order->order_status()->associate($orderStatus);
+        // }
+
+        // $order->customeravulse = $request->customeravulse;
+
+        // if (isset($customer)) {
+        //     $order->customer()->associate($customer);
+        // }
+
+        // if (isset($admin)) {
+        //     $order->admin()->associate($admin);
+        // }
+
+        // if (isset($barber)) {
+        //     $order->barber()->associate();
+        // }
+
+        // if (isset($barbershop)) {
+        //     $order->barbershop()->associate($barbershop);
+        // }
+
+        $array = $request->items;
+
+        foreach ($array as $item) {
+            $newItem = new Item();
+            $newItem = new Item();
+            $newItem->quantity = $item['quantity'];
+            $newItem->price = $item['price'];
+            $newItem->product_id = $item['product_id'];
+            $newItem->service_id = $item['service_id'];
+            $newItem->scheduling_id = $item['scheduling_id'];
+            $newItem->order_id = $orderid;
+
+            if ($newItem->valid()) {
+                $newItem->save();
+            }
         }
 
-        $order->customeravulse = $request->customeravulse;
-
-        if (isset($customer)) {
-            $order->customer()->associate($customer);
-        }
-
-        if (isset($admin)) {
-            $order->admin()->associate($admin);
-        }
-
-        if (isset($barber)) {
-            $order->barber()->associate();
-        }
-
-        if (isset($barbershop)) {
-            $order->barbershop()->associate($barbershop);
-        }
+        $order = Order::with('items')
+        ->where('id', $orderid)->get()->first();
+        $order->calculatePercetage($order->items());
 
         $order->save();
-
-        $orderDB = Order::where('id', $order->id)->get()->first();
-
-        foreach ($request->items as $itemJson) {
-            $item = new Item();
-            $item->quantity = $itemJson->quantity;
-            $item->price = $itemJson->price;
-
-            if (isset($itemJson->product_id)) {
-                $item->product_id = $itemJson->product_id;
-            }
-
-            if (isset($itemJson->service_id)) {
-                $item->service_id = $itemJson->service_id;
-            }
-
-            if (isset($itemJson->order_id)) {
-                $item->order()->associate($orderDB);
-            }
-
-            if ($item->valid()) {
-                $item->save();
-            }
-        }
-
-        $orderDB->calculatePercetage();
-
-        $orderDB->save();
 
         return response()->json($order, 201);
     }

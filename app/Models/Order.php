@@ -19,7 +19,7 @@ class Order extends Model
         'valuebarber',
     ];
 
-    public function orderstatus()
+    public function order_status()
     {
         return $this->belongsTo('App\Models\OrderStatus');
     }
@@ -49,12 +49,12 @@ class Order extends Model
         return $this->hasMany('App\Models\Item');
     }
 
-    public function calculatePercetage()
+    public function calculatePercetage($items)
     {
         $serviceValue = 0;
         $productValue = 0;
 
-        foreach ($this->items() as $item) {
+        foreach ($items as $item) {
             if ($item->product() != null) {
                 $productValue += $item->price * $item->quantity;
             } else {

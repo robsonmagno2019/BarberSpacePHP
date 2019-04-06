@@ -17,7 +17,7 @@ class CreateOrdersTable extends Migration
             $table->string('number', 20);
             $table->integer('order_status_id')->unsigned();
             $table->foreign('order_status_id')->references('id')->on('order_statuses');
-            $table->string('customeravulse', 60);
+            $table->string('customeravulse', 60)->nullable();
             $table->integer('customer_id')->unsigned()->nullable();
             $table->foreign('customer_id')->references('id')->on('customers');
             $table->integer('admin_id')->unsigned()->nullable();
@@ -26,8 +26,8 @@ class CreateOrdersTable extends Migration
             $table->foreign('barber_id')->references('id')->on('barbers');
             $table->integer('barbershop_id')->unsigned();
             $table->foreign('barbershop_id')->references('id')->on('barbershops');
-            $table->double('valueadmin');
-            $table->double('valuebarber');
+            $table->double('valueadmin')->nullable();
+            $table->double('valuebarber')->nullable();
             $table->timestamps();
         });
     }

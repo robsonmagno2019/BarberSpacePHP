@@ -55,20 +55,28 @@ class Order extends Model
         $productValue = 0;
 
         foreach ($items as $item) {
-            if ($item->product() != null) {
-                $productValue += $item->price * $item->quantity;
-            } else {
-                $serviceValue += $item->price * $item->quantity;
+            if ($item->product() != null && $item->product_id != null) {
+                $productValue += $item->total();
+            }
+
+            if ($item->service() != null && $item->service_id != null) {
+                $serviceValue += $item->total();
             }
         }
 
-        $this->valuebarber = ($serviceValue * $this->barber->percentage) / 100;
-
         if ($productValue > 0) {
+            if ($this->barber->percentage > 0) {
+                $this->valuebarber += ($serviceValue * $this->barber->percentage) / 100;
+            }
             $this->valueadmin += ($serviceValue - (($serviceValue * $this->barber->percentage) / 100)) + $productValue;
         } else {
+            if ($this->barber->percentage > 0) {
+                $this->valuebarber += ($serviceValue * $this->barber->percentage) / 100;
+            }
             $this->valueadmin += $serviceValue - (($serviceValue * $this->barber->percentage) / 100);
         }
+
+        return $this->valuebarber;
     }
 
     public function subtotal()

@@ -23,10 +23,16 @@ class ColorController extends Controller
 
     public function index()
     {
+        $colors = Color::all();
+
+        if (isset($colors)) {
+            return view('color.index', compact('colors'));
+        }
     }
 
     public function create()
     {
+        return view('color.create');
     }
 
     public function storeJson(Request $request)

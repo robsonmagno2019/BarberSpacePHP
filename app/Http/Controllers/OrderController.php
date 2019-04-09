@@ -10,6 +10,7 @@ use App\Models\Customer;
 use App\Models\Item;
 use App\Models\Order;
 use App\Models\OrderStatus;
+use App\Models\Salary;
 
 class OrderController extends Controller
 {
@@ -58,28 +59,6 @@ class OrderController extends Controller
             'valuebarber' => $request->valuebarber,
         ]);
 
-        // if (isset($orderStatus)) {
-        //     $order->order_status()->associate($orderStatus);
-        // }
-
-        // $order->customeravulse = $request->customeravulse;
-
-        // if (isset($customer)) {
-        //     $order->customer()->associate($customer);
-        // }
-
-        // if (isset($admin)) {
-        //     $order->admin()->associate($admin);
-        // }
-
-        // if (isset($barber)) {
-        //     $order->barber()->associate();
-        // }
-
-        // if (isset($barbershop)) {
-        //     $order->barbershop()->associate($barbershop);
-        // }
-
         $array = $request->items;
 
         foreach ($array as $item) {
@@ -97,13 +76,52 @@ class OrderController extends Controller
             }
         }
 
-        $order = Order::with('items')
+        $order = Order::with('customer', 'admin', 'barber', 'barbershop', 'items')
         ->where('id', $orderid)->get()->first();
-        $order->calculatePercetage($order->items());
+
+        $items = Item::with('product', 'service')->where('order_id', $order->id)
+        ->get();
+
+        $priceBarber = $order->calculatePercetage($items);
+
+        $salaries = Salary::where('barber_id', $order->barber_id)->get();
+
+        $this->calculateSalary($order->barber_id, $salaries, $priceBarber);
 
         $order->save();
 
         return response()->json($order, 201);
+    }
+
+    public function calculateSalary($barber_id, $salaries, $priceBarber)
+    {
+        $date = new \DateTime();
+        $date->format('Y-m-d H:i:s');
+
+        $date1 = strtotime('+1 month', $date);
+
+        $datecalculate = $date1 - $date2;
+
+        if (count($salaries) > 0) {
+            foreach ($salaries as $salary) {
+                if ($datecalculate == 0) {
+                    $salary->price += $priceBarber;
+                    $salary->save();
+                } else {
+                    $salary = new Salary();
+                    $salary->createdate = $salary->createDateSalary();
+                    $salary->price = $priceBarber;
+                    $salary->barber_id = $barber_id;
+                    $salary->save();
+                }
+            }
+        } else {
+            $salary = new Salary();
+            $salary->createdate = $salary->createDateSalary();
+            $salary->price = $priceBarber;
+            $salary->barber_id = $barber_id;
+            $salary->save();
+        }
     }
 
     public function store(Request $request)

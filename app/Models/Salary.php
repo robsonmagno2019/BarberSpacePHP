@@ -20,7 +20,9 @@ class Salary extends Model
     public function createDateSalary()
     {
         $timestamp = new \DateTime();
-        $splitTimeStamp = explode(' ', $timestamp);
+        $ts = $timestamp->format('Y-m-d H:i:s');
+        $splitTimeStamp = explode(' ', $ts);
+
         $date = $splitTimeStamp[0];
         $time = $splitTimeStamp[1];
 
@@ -39,17 +41,17 @@ class Salary extends Model
         return $newDate;
     }
 
-    public function update($price)
-    {
-        if ($price > 0) {
-            $this->price += $price;
-        }
-    }
+    // public function update($price)
+    // {
+    //     if ($price > 0) {
+    //         $this->price += $price;
+    //     }
+    // }
 
-    public function decrement($price)
-    {
-        if ($price > 0) {
-            $this->price -= $price;
-        }
-    }
+    // public function decrement($price)
+    // {
+    //     if ($price > 0) {
+    //         $this->price -= $price;
+    //     }
+    // }
 }

@@ -23,10 +23,16 @@ class CategoryController extends Controller
 
     public function index()
     {
+        $categories = Category::with('barbershop')->get();
+
+        if (isset($categories)) {
+            return view('category.index', compact('categories'));
+        }
     }
 
     public function create()
     {
+        return view('category.create');
     }
 
     public function storeJson(Request $request)
@@ -47,6 +53,34 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
+        $messages = [
+            'description.required' => 'A descrição é obrigatória.',
+            'description.min' => 'A descrição deve conter no mínimo 2 caracteres.',
+            'description.max' => 'A descrição deve conter no máximo 40 caracteres.',
+            'barbershop_id.required' => 'Nenhuma barbearia foi selecionada.',
+        ];
+        $request->validate([
+            'description' => 'required|min:2|max:40',
+        ], $messages);
+
+        $date = new \DateTime();
+        $date->format('Y-m-d H:i:s');
+
+        //$barbershop = Barbershop::find($request->barbershop_id);
+        //$barbershop = Barbershop::find(1);
+
+        $category = new Category();
+        $category->createdate = $date;
+        $category->description = $request->input('description');
+        $category->barbershop_id = 1;
+
+        // if (isset($category->barbershop_id)) {
+        //     $category->barbershop()->associate($barbershop);
+        // }
+
+        $category->save();
+
+        return redirect('/categorias');
     }
 
     public function showJson($id)
@@ -65,10 +99,24 @@ class CategoryController extends Controller
 
     public function show($id)
     {
+        $category = Category::with('barbershop')
+                    ->where('id', $id)->get()->first();
+
+        if (isset($category)) {
+            return view('category.show', compact('category'));
+        }
     }
 
     public function edit($id)
     {
+        $category = Category::with('barbershop')
+                    ->where('id', $id)->get()->first();
+
+        if (isset($category)) {
+            return view('category.edit', compact('category'));
+        }
+
+        return redirect('/categorias');
     }
 
     public function updateJson(Request $request, $id)
@@ -90,6 +138,31 @@ class CategoryController extends Controller
 
     public function update(Request $request, $id)
     {
+        $messages = [
+            'description.required' => 'A descrição é obrigatória.',
+            'description.min' => 'A descrição deve conter no mínimo 2 caracteres.',
+            'description.max' => 'A descrição deve conter no máximo 40 caracteres.',
+            'barbershop_id.required' => 'Nenhuma barbearia foi selecionada.',
+        ];
+        $request->validate([
+            'description' => 'required|min:2|max:40',
+            'barbershop_id' => 'required',
+        ], $messages);
+
+        //$barbershop = Barbershop::find($request->barbershop_id);
+        //$barbershop = Barbershop::find(1);
+
+        $category = Category::find($id);
+        $category->description = $request->input('description');
+        $category->barbershop_id = $request->barbershop_id;
+
+        // if (isset($category->barbershop_id)) {
+        //     $category->barbershop()->associate($barbershop);
+        // }
+
+        $category->save();
+
+        return redirect('/categorias');
     }
 
     public function destroyJson($id)
@@ -113,5 +186,18 @@ class CategoryController extends Controller
 
     public function destroy($id)
     {
+        $category = Category::with('barbershop')
+                    ->where('id', $id)->get()->first();
+        if (isset($category)) {
+            $category->barbershop()->dissociate();
+
+            $category->delete();
+
+            return redirect('/categorias');
+        }
+
+        return response()->json([
+            'message' => 'A categoria não foi encontrada!',
+        ], 404);
     }
 }

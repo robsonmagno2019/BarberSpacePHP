@@ -13,7 +13,7 @@
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
     <li><a href="#">Cores</a></li>
-    <li class="active">Novo</li>
+    <li class="active">Editar</li>
   </ol>
 </section>
 
@@ -24,7 +24,7 @@
     <!-- Default box -->
     <div class="box">
         <div class="box-header with-border">
-            <h3 class="box-title">Nova Cor</h3>
+            <h3 class="box-title">Editar Cor</h3>
 
             <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
@@ -39,7 +39,8 @@
                 <div class="form-group">
                     <label for="name">Nome</label>
                     <div class="form-group {{ $errors->has('name') ? 'has-error' : ''}}">
-                        <input type="text" class="form-control" id="name" name="name" placeholder="Digite aqui o nome da cor.">
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Digite aqui o nome da cor."
+                        value="{{$color->name}}">
                         @if($errors->has('name'))
                             <div class="text-danger">
                                 {{ $errors->first('name') }}
@@ -50,7 +51,8 @@
                 <div class="form-group">
                     <label for="code">Código</label>
                     <div class="form-group {{ $errors->has('code') ? 'has-error' : ''}}">
-                        <input type="text" class="form-control" id="code" name="code" placeholder="Digite aqui o código da cor.">
+                        <input type="text" class="form-control" id="code" name="code" placeholder="Digite aqui o código da cor."
+                        value="{{$color->code}}">
                         @if($errors->has('code'))
                             <div class="text-danger">
                                 {{ $errors->first('code') }}

@@ -1,4 +1,4 @@
-@extends('layouts.app-admin')
+@extends('layouts.app-admin', ["current" => "produtos"])
 
 @section('title', 'Categoria')
 

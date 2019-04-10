@@ -12,7 +12,8 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Cores</li>
+        <li><a href="#">Cores</a></li>
+        <li class="active">Detalhes</li>
       </ol>
     </section>
 
@@ -33,33 +34,13 @@
           </div>
         </div>
         <div class="box-body">
-            @if(count($colors) > 0)
-                <table class="table table-striped table-hover">
-                    <thead>
-                        <tr>
-                        <th class="text-center">Descrição</th>
-                        <th class="text-center">Ação</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($colors as $color)
-                            <tr>
-                                <td class="text-center">{{ $color->name }}</td>
-                                <td class="text-center">
-                                    <a href="/cores/{{ $color->id }}/detalhes" class="btn btn-sm btn-default">Detalhes</a>
-                                    <a href="/cores/editar/{{ $color->id }}" class="btn btn-sm btn-info">Editar</a>
-                                    <a href="/cores/deletar/{{ $color->id }}" class="btn btn-sm btn-danger">Excluír</a>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            @else
-                <h4>Nenhuma cor foi registrada!</h4>
-            @endif
+            <p>Data de Criação: {{$color->createdate}}</p>
+            <p>Cor: {{$color->name}}</p>
+            <p>Código da cor: {{$color->code}}</p>
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
+        <a href="{{ '/cores' }}" class="btn btn-sm btn-default">Voltar</a>
         <a href="{{ '/cores/criar' }}" class="btn btn-sm btn-success"><span class="fa fa-plus"></span> Cor</a>
         </div>
         <!-- /.box-footer-->

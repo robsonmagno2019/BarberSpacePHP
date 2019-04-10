@@ -24,6 +24,11 @@ class DurationContractController extends Controller
 
     public function index()
     {
+        $durationContracts = DurationContract::all();
+
+        if (isset($durationContract)) {
+            return view('durationcontract.index', compact('durationContracts'));
+        }
     }
 
     public function create()

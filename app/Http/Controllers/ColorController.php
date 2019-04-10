@@ -68,10 +68,20 @@ class ColorController extends Controller
 
     public function show($id)
     {
+        $color = Color::find($id);
+
+        if (isset($color)) {
+            return view('color.details', compact('color'));
+        }
     }
 
     public function edit($id)
     {
+        $color = Color::find($id);
+
+        if (isset($color)) {
+            return view('color.edit', compact('color'));
+        }
     }
 
     public function updateJson(Request $request, $id)

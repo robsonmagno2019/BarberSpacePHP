@@ -25,6 +25,12 @@ Route::prefix('/categorias')->group(function () {
 });
 
 // Rotas de Duração de Contratos
-Route::prefix('/duracoescontratos')->group(function () {
+Route::prefix('/durationcontracts')->group(function () {
     Route::get('/', 'DurationContractController@index');
+    Route::get('/criar', 'DurationContractController@create');
+    Route::post('/', 'DurationContractController@store');
+    Route::get('/{id}/detalhes', 'DurationContractController@show');
+    Route::get('/editar/{id}', 'DurationContractController@edit');
+    Route::post('/{id}', 'DurationContractController@update');
+    Route::get('/deletar/{id}', 'DurationContractController@destroy');
 });

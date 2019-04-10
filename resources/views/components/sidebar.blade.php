@@ -43,6 +43,14 @@
             </span>
           </a>
         </li>
+        <li>
+          <a href="{{ '/durationcontracts' }}">
+            <i class="fa fa-th"></i> <span>Durações de Contratos</span>
+            <span class="pull-right-container">
+              <small class="label pull-right bg-green">Hot</small>
+            </span>
+          </a>
+        </li>
         
         <li class="treeview">
           <a href="#">

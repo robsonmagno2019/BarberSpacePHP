@@ -1,6 +1,6 @@
-@extends('layouts.app-admin', ["current" => "produtos"])
+@extends('layouts.app-admin', ["current" => "cores"])
 
-@section('title', 'Categoria')
+@section('title', 'Cores')
 
 @section('content')
 
@@ -12,7 +12,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
-        <li><a href="#">Categorias</a></li>
+        <li><a href="#">Cores</a></li>
         <li class="active">Detalhes</li>
       </ol>
     </section>
@@ -23,7 +23,7 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Detalhes da Categoria</h3>
+          <h3 class="box-title">Cores</h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
@@ -34,12 +34,14 @@
           </div>
         </div>
         <div class="box-body">
-            
+            <p>Data de Criação: {{$color->createdate}}</p>
+            <p>Cor: {{$color->name}}</p>
+            <p>Código da cor: {{$color->code}}</p>
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
-        <a href="{{ '/categorias' }}" class="btn btn-default btn-sm">Voltar</a>
-          <button type="submit" class="btn btn-sm btn-success"><span class="fa fa-save"></span> Salvar</button>
+        <a href="{{ '/cores' }}" class="btn btn-sm btn-default">Voltar</a>
+        <a href="{{ '/cores/criar' }}" class="btn btn-sm btn-success"><span class="fa fa-plus"></span> Cor</a>
         </div>
         <!-- /.box-footer-->
       </div>

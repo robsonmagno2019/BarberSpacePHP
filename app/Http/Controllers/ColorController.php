@@ -71,7 +71,7 @@ class ColorController extends Controller
         $color = Color::find($id);
 
         if (isset($color)) {
-            return view('color.details', compact('color'));
+            return view('color.show', compact('color'));
         }
     }
 

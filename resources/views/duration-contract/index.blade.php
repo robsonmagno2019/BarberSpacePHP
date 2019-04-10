@@ -1,6 +1,6 @@
-@extends('layouts.app-admin', ["current" => "produtos"])
+@extends('layouts.app-admin', ["current" => "duration-contract"])
 
-@section('title', 'Categoria')
+@section('title', 'Durações de Contratos')
 
 @section('content')
 
@@ -12,7 +12,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
-        <li class="active">Categorias</li>
+        <li class="active">Durações de Contratos</li>
       </ol>
     </section>
 
@@ -22,7 +22,7 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Categorias</h3>
+          <h3 class="box-title">Durações de Contratos</h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
@@ -33,7 +33,7 @@
           </div>
         </div>
         <div class="box-body">
-            @if(count($categories) > 0)
+            @if(count($durationContracts) > 0)
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
@@ -42,13 +42,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($categories as $category)
+                        @foreach($durationContracts as $durationContract)
                             <tr>
-                                <td class="text-center">{{ $category->description }}</td>
+                                <td class="text-center">{{ $durationContract->description }}</td>
                                 <td class="text-center">
-                                    <a href="/categorias/{{ $category->id }}/detalhes" class="btn btn-sm btn-default">Detalhes</a>
-                                    <a href="/categorias/editar/{{ $category->id }}" class="btn btn-sm btn-info">Editar</a>
-                                    <a href="/categorias/deletar/{{ $category->id }}" class="btn btn-sm btn-danger">Excluír</a>
+                                    <a href="/durationcontracts/{{ $durationContract->id }}/detalhes" class="btn btn-sm btn-default">Detalhes</a>
+                                    <a href="/durationcontracts/editar/{{ $durationContract->id }}" class="btn btn-sm btn-info">Editar</a>
+                                    <a href="/durationcontracts/deletar/{{ $durationContract->id }}" class="btn btn-sm btn-danger">Excluír</a>
                                 </td>
                             </tr>
                         @endforeach
@@ -60,7 +60,7 @@
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
-        <a href="{{ '/categorias/criar' }}" class="btn btn-sm btn-success"><span class="fa fa-plus"></span> Categoria</a>
+        <a href="{{ '/durationcontracts/criar' }}" class="btn btn-sm btn-success"><span class="fa fa-plus"></span> Duração de Contrato</a>
         </div>
         <!-- /.box-footer-->
       </div>

@@ -1,6 +1,6 @@
-@extends('layouts.app-admin', ["current" => "produtos"])
+@extends('layouts.app-admin', ["current" => "duration-contract"])
 
-@section('title', 'Categoria')
+@section('title', 'Durações de Contratos')
 
 @section('content')
 
@@ -12,19 +12,19 @@
   </h1>
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
-    <li><a href="#">Categorias</a></li>
-    <li class="active">Editar</li>
+    <li><a href="#">Durações de Contratos</a></li>
+    <li class="active">Novo</li>
   </ol>
 </section>
 
 <!-- Main content -->
 <section class="content">
-  <form action="/categorias/{{ $category->id }}" method="POST" role="form">
+  <form action="/durationcontracts" method="POST" role="form">
     @csrf
     <!-- Default box -->
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Editar Categoria</h3>
+        <h3 class="box-title">Nova Duração de Contrato</h3>
 
         <div class="box-tools pull-right">
           <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
@@ -36,12 +36,10 @@
       </div>
       <div class="box-body">
         <div class="box-body">
-          <input type="hidden" id="barbershop_id" name="barbershop_id" value="{{$category->barbershop_id}}">
           <div class="form-group">
             <label for="description">Descrição</label>
             <div class="form-group {{ $errors->has('description') ? 'has-error' : ''}}">
-            <input type="text" class="form-control" id="description" name="description" placeholder="Digite aqui a categoria."
-            value="{{ $category->description }}">
+            <input type="text" class="form-control" id="description" name="description" placeholder="Digite aqui a duração do contrato.">
             @if($errors->has('description'))
               <div class="text-danger">
                 {{ $errors->first('description') }}
@@ -54,7 +52,7 @@
       </div>
       <!-- /.box-body -->
       <div class="box-footer">
-        <a href="{{ '/categorias' }}" class="btn btn-default btn-sm">Voltar</a>
+        <a href="{{ '/durationcontracts' }}" class="btn btn-default btn-sm">Voltar</a>
         <button type="submit" class="btn btn-sm btn-success"><span class="fa fa-save"></span> Salvar</button>
       </div>
       <!-- /.box-footer-->

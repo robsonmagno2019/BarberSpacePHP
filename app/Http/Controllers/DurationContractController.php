@@ -9,11 +9,11 @@ class DurationContractController extends Controller
 {
     public function indexJson()
     {
-        $durationContract = DurationContract::all();
+        $durationContracts = DurationContract::all();
 
-        if (isset($durationContract)) {
+        if (isset($durationContracts)) {
             return response()->json([
-                $durationContract,
+                $durationContracts,
             ], 200);
         }
 
@@ -26,17 +26,27 @@ class DurationContractController extends Controller
     {
         $durationContracts = DurationContract::all();
 
-        if (isset($durationContract)) {
-            return view('durationcontract.index', compact('durationContracts'));
+        if (isset($durationContracts)) {
+            return view('duration-contract.index', compact('durationContracts'));
         }
     }
 
     public function create()
     {
+        return view('duration-contract.create');
     }
 
     public function storeJson(Request $request)
     {
+        $messages = [
+            'description.required' => 'A descrição é obrigatória.',
+            'description.min' => 'A descrição deve conter no mínimo 2 caracteres.',
+            'description.max' => 'A descrição deve conter no máximo 40 caracteres.',
+        ];
+        $request->validate([
+            'description' => 'required|min:2|max:40',
+        ], $messages);
+
         $date = new \DateTime();
         $date->format('Y-m-d H:i:s');
 
@@ -51,6 +61,25 @@ class DurationContractController extends Controller
 
     public function store(Request $request)
     {
+        $messages = [
+            'description.required' => 'A descrição é obrigatória.',
+            'description.min' => 'A descrição deve conter no mínimo 2 caracteres.',
+            'description.max' => 'A descrição deve conter no máximo 40 caracteres.',
+        ];
+        $request->validate([
+            'description' => 'required|min:2|max:40',
+        ], $messages);
+
+        $date = new \DateTime();
+        $date->format('Y-m-d H:i:s');
+
+        $durationContract = new DurationContract();
+
+        $durationContract->createdate = $date;
+        $durationContract->description = $request->description;
+        $durationContract->save();
+
+        return redirect('/durationcontracts');
     }
 
     public function showJson($id)
@@ -68,10 +97,20 @@ class DurationContractController extends Controller
 
     public function show($id)
     {
+        $durationContract = DurationContract::find($id);
+
+        if (isset($durationContract)) {
+            return view('duration-contract.show', compact('durationContract'));
+        }
     }
 
     public function edit($id)
     {
+        $durationContract = DurationContract::find($id);
+
+        if (isset($durationContract)) {
+            return view('duration-contract.edit', compact('durationContract'));
+        }
     }
 
     public function updateJson(Request $request, $id)
@@ -79,7 +118,6 @@ class DurationContractController extends Controller
         $durationContract = DurationContract::find($id);
 
         if (isset($durationContract)) {
-            $durationContract->createdate = $date;
             $durationContract->description = $request->description;
             $durationContract->save();
 
@@ -93,6 +131,23 @@ class DurationContractController extends Controller
 
     public function update(Request $request, $id)
     {
+        $messages = [
+            'description.required' => 'A descrição é obrigatória.',
+            'description.min' => 'A descrição deve conter no mínimo 2 caracteres.',
+            'description.max' => 'A descrição deve conter no máximo 40 caracteres.',
+        ];
+        $request->validate([
+            'description' => 'required|min:2|max:40',
+        ], $messages);
+
+        $durationContract = DurationContract::find($id);
+
+        if (isset($durationContract)) {
+            $durationContract->description = $request->description;
+            $durationContract->save();
+
+            return redirect('/durationcontracts');
+        }
     }
 
     public function destroyJson($id)
@@ -114,5 +169,10 @@ class DurationContractController extends Controller
 
     public function destroy($id)
     {
+        if (isset($durationContract)) {
+            $durationContract->delete();
+
+            return redirect('/durationcontracts');
+        }
     }
 }

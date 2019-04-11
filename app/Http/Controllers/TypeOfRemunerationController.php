@@ -129,6 +129,14 @@ class TypeOfRemunerationController extends Controller
 
     public function update(Request $request, $id)
     {
+        $typeOfRemuneration = TypeOfRemuneration::find($id);
+
+        if (isset($typeOfRemuneration)) {
+            $typeOfRemuneration->description = $request->description;
+            $typeOfRemuneration->save();
+
+            return redirect('/tiposderemuneracoes');
+        }
     }
 
     public function destroyJson($id)
@@ -150,5 +158,12 @@ class TypeOfRemunerationController extends Controller
 
     public function destroy($id)
     {
+        $typeOfRemuneration = TypeOfRemuneration::find($id);
+
+        if (isset($typeOfRemuneration)) {
+            $typeOfRemuneration->delete();
+
+            return redirect('/tiposderemuneracoes');
+        }
     }
 }

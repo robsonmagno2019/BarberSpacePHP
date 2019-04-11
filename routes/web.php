@@ -4,23 +4,6 @@ Route::get('/', function () {
     return view('index');
 });
 
-// Rotas de Tipos de Remunerações
-Route::prefix('/tiposderemuneracoes')->group(function () {
-    Route::get('/', 'TypeOfRemunerationController@index');
-    Route::get('/criar', 'TypeOfRemunerationController@create');
-    Route::get('/{id}/detalhes', 'TypeOfRemunerationController@show');
-    Route::get('/editar/{id}', 'TypeOfRemunerationController@edit');
-});
-
-// Rotas de Cores
-Route::prefix('/cores')->group(function () {
-    Route::get('/', 'ColorController@index');
-    Route::get('/criar', 'ColorController@create');
-    Route::get('/{id}/detalhes', 'ColorController@show');
-    Route::get('/editar/{id}', 'ColorController@edit');
-    Route::post('/{id}', 'ColorController@update');
-});
-
 // Rotas de Categorias
 Route::prefix('/categorias')->group(function () {
     Route::get('/', 'CategoryController@index')->name('categoryindex');
@@ -32,8 +15,18 @@ Route::prefix('/categorias')->group(function () {
     Route::get('/deletar/{id}', 'CategoryController@destroy');
 });
 
+// Rotas de Cores
+Route::prefix('/cores')->group(function () {
+    Route::get('/', 'ColorController@index');
+    Route::get('/criar', 'ColorController@create');
+    Route::get('/{id}/detalhes', 'ColorController@show');
+    Route::get('/editar/{id}', 'ColorController@edit');
+    Route::post('/{id}', 'ColorController@update');
+    Route::post('/deletar/{id}', 'ColorController@destroy');
+});
+
 // Rotas de Duração de Contratos
-Route::prefix('/durationcontracts')->group(function () {
+Route::prefix('/duracoes-de-contratos')->group(function () {
     Route::get('/', 'DurationContractController@index');
     Route::get('/criar', 'DurationContractController@create');
     Route::post('/', 'DurationContractController@store');
@@ -41,4 +34,22 @@ Route::prefix('/durationcontracts')->group(function () {
     Route::get('/editar/{id}', 'DurationContractController@edit');
     Route::post('/{id}', 'DurationContractController@update');
     Route::get('/deletar/{id}', 'DurationContractController@destroy');
+});
+
+// Rotas do Status do Pedido
+Route::prefix('/status-dos-pedidos')->group(function () {
+    Route::get('/', 'OrderStatusController@index');
+    Route::get('/criar', 'OrderStatusController@create');
+    Route::get('/{id}/detalhes', 'OrderStatusController@show');
+    Route::get('/editar/{id}', 'OrderStatusController@edit');
+});
+
+// Rotas de Tipos de Remunerações
+Route::prefix('/tipos-de-remuneracoes')->group(function () {
+    Route::get('/', 'TypeOfRemunerationController@index');
+    Route::get('/criar', 'TypeOfRemunerationController@create');
+    Route::get('/{id}/detalhes', 'TypeOfRemunerationController@show');
+    Route::get('/editar/{id}', 'TypeOfRemunerationController@edit');
+    Route::post('/{id}', 'TypeOfRemunerationController@update');
+    Route::post('/deletar/{id}', 'TypeOfRemunerationController@destroy');
 });

@@ -44,7 +44,7 @@
           </a>
         </li>
         <li>
-          <a href="{{ '/durationcontracts' }}">
+          <a href="{{ '/duracoes-de-contratos' }}">
             <i class="fa fa-th"></i> <span>Durações de Contratos</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-green">Hot</small>
@@ -52,7 +52,16 @@
           </a>
         </li>
         <li>
-          <a href="{{ '/tiposderemuneracoes' }}">
+        <li>
+          <a href="{{ '/status-dos-pedidos' }}">
+            <i class="fa fa-th"></i> <span>Status dos Pedido</span>
+            <span class="pull-right-container">
+              <small class="label pull-right bg-green">Hot</small>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ '/tipos-de-remuneracoes' }}">
             <i class="fa fa-th"></i> <span>Tipos de Remunerações</span>
             <span class="pull-right-container">
               <small class="label pull-right bg-green">Hot</small>

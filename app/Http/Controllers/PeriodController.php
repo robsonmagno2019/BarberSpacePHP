@@ -40,7 +40,6 @@ class PeriodController extends Controller
             'description.required' => 'A descrição é obrigatória.',
             'description.min' => 'A descrição deve conter no mínimo 2 caracteres.',
             'description.max' => 'A descrição deve conter no máximo 20 caracteres.',
-            'barbershop_id.required' => 'Nenhuma barbearia foi selecionada.',
         ];
         $request->validate([
             'description' => 'required|min:2|max:20',
@@ -63,7 +62,6 @@ class PeriodController extends Controller
             'description.required' => 'A descrição é obrigatória.',
             'description.min' => 'A descrição deve conter no mínimo 2 caracteres.',
             'description.max' => 'A descrição deve conter no máximo 20 caracteres.',
-            'barbershop_id.required' => 'Nenhuma barbearia foi selecionada.',
         ];
         $request->validate([
             'description' => 'required|min:2|max:20',

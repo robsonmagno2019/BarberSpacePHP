@@ -69,6 +69,17 @@ Route::prefix('/periodos')->group(function () {
     Route::post('/deletar/{id}', 'PeriodController@destroy');
 });
 
+// Rotas de Planos
+Route::prefix('/planos')->group(function () {
+    Route::get('/', 'PlanController@index');
+    Route::get('/criar', 'PlanController@create');
+    Route::post('/', 'PlanController@store');
+    Route::get('/{id}/detalhes', 'PlanController@show');
+    Route::get('/editar/{id}', 'PlanController@edit');
+    Route::post('/{id}', 'PlanController@update');
+    Route::post('/deletar/{id}', 'PlanController@destroy');
+});
+
 // Rotas de Tipos de Remunerações
 Route::prefix('/tipos-de-remuneracoes')->group(function () {
     Route::get('/', 'TypeOfRemunerationController@index');

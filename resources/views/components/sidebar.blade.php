@@ -88,6 +88,15 @@
         </li>
 
         <li>
+          <a href="{{ '/horario-de-servicos' }}">
+            <i class="fa fa-th"></i> <span>Horários de Serviço</span>
+            <span class="pull-right-container">
+              <small class="label pull-right bg-green">Hot</small>
+            </span>
+          </a>
+        </li>
+
+        <li>
           <a href="{{ '/tipos-de-remuneracoes' }}">
             <i class="fa fa-th"></i> <span>Tipos de Remunerações</span>
             <span class="pull-right-container">

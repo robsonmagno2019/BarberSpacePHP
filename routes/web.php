@@ -80,6 +80,17 @@ Route::prefix('/planos')->group(function () {
     Route::post('/deletar/{id}', 'PlanController@destroy');
 });
 
+// Rotas de Horário de Serviços
+Route::prefix('/horario-de-servicos')->group(function () {
+    Route::get('/', 'ServiceHourController@index');
+    Route::get('/criar', 'ServiceHourController@create');
+    Route::post('/', 'ServiceHourController@store');
+    Route::get('/{id}/detalhes', 'ServiceHourController@show');
+    Route::get('/editar/{id}', 'ServiceHourController@edit');
+    Route::post('/{id}', 'ServiceHourController@update');
+    Route::post('/deletar/{id}', 'ServiceHourController@destroy');
+});
+
 // Rotas de Tipos de Remunerações
 Route::prefix('/tipos-de-remuneracoes')->group(function () {
     Route::get('/', 'TypeOfRemunerationController@index');

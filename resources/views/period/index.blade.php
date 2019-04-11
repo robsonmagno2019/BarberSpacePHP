@@ -1,6 +1,6 @@
-@extends('layouts.app-admin', ["current" => "order-status"])
+@extends('layouts.app-admin', ["current" => "periods"])
 
-@section('title', 'Status dos Pedidos')
+@section('title', 'Períodos')
 
 @section('content')
 
@@ -12,7 +12,7 @@
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
-        <li class="active">Status dos Pedidos</li>
+        <li class="active">Períodos</li>
       </ol>
     </section>
 
@@ -22,7 +22,7 @@
       <!-- Default box -->
       <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Status dos Pedidos</h3>
+          <h3 class="box-title">Períodos</h3>
 
           <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
@@ -33,7 +33,7 @@
           </div>
         </div>
         <div class="box-body">
-            @if(count($orderStatuses) > 0)
+            @if(count($periods) > 0)
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
@@ -42,25 +42,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($orderStatuses as $orderStatus)
+                        @foreach($periods as $period)
                             <tr>
-                                <td class="text-center">{{ $orderStatus->description }}</td>
+                                <td class="text-center">{{ $period->description }}</td>
                                 <td class="text-center">
-                                    <a href="/status-dos-pedidos/{{ $orderStatus->id }}/detalhes" class="btn btn-sm btn-default">Detalhes</a>
-                                    <a href="/status-dos-pedidos/editar/{{ $orderStatus->id }}" class="btn btn-sm btn-info">Editar</a>
-                                    <a href="/status-dos-pedidos/deletar/{{ $orderStatus->id }}" class="btn btn-sm btn-danger">Excluír</a>
+                                    <a href="/periodos/{{ $period->id }}/detalhes" class="btn btn-sm btn-default">Detalhes</a>
+                                    <a href="/periodos/editar/{{ $period->id }}" class="btn btn-sm btn-info">Editar</a>
+                                    <a href="/periodos/deletar/{{ $period->id }}" class="btn btn-sm btn-danger">Excluír</a>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
             @else
-                <h4>Nenhuma status de serviço foi registrado!</h4>
+                <h4>Nenhum período foi registrada!</h4>
             @endif
         </div>
         <!-- /.box-body -->
         <div class="box-footer">
-        <a href="{{ '/status-dos-pedidos/criar' }}" class="btn btn-sm btn-success"><span class="fa fa-plus"></span> Status de Pedido</a>
+        <a href="{{ '/periodos/criar' }}" class="btn btn-sm btn-success"><span class="fa fa-plus"></span> Período</a>
         </div>
         <!-- /.box-footer-->
       </div>

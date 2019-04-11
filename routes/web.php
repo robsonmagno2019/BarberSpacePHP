@@ -47,6 +47,7 @@ Route::prefix('/status-dos-pedidos')->group(function () {
     Route::post('/deletar/{id}', 'OrderStatusController@destroy');
 });
 
+// Rotas do Status do Vales
 Route::prefix('/status-dos-vales')->group(function () {
     Route::get('/', 'PaydayAdvanceStatusController@index');
     Route::get('/criar', 'PaydayAdvanceStatusController@create');
@@ -56,6 +57,18 @@ Route::prefix('/status-dos-vales')->group(function () {
     Route::post('/{id}', 'PaydayAdvanceStatusController@update');
     Route::post('/deletar/{id}', 'PaydayAdvanceStatusController@destroy');
 });
+
+// Rotas dos Períodos
+Route::prefix('/periodos')->group(function () {
+    Route::get('/', 'PeriodController@index');
+    Route::get('/criar', 'PeriodController@create');
+    Route::post('/', 'PeriodController@store');
+    Route::get('/{id}/detalhes', 'PeriodController@show');
+    Route::get('/editar/{id}', 'PeriodController@edit');
+    Route::post('/{id}', 'PeriodController@update');
+    Route::post('/deletar/{id}', 'PeriodController@destroy');
+});
+
 // Rotas de Tipos de Remunerações
 Route::prefix('/tipos-de-remuneracoes')->group(function () {
     Route::get('/', 'TypeOfRemunerationController@index');

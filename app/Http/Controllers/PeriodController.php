@@ -22,14 +22,30 @@ class PeriodController extends Controller
 
     public function index()
     {
+        $periods = Period::all();
+
+        if (isset($periods)) {
+            return view('period.index', compact('periods'));
+        }
     }
 
     public function create()
     {
+        return view('period.create');
     }
 
     public function storeJson(Request $request)
     {
+        $messages = [
+            'description.required' => 'A descrição é obrigatória.',
+            'description.min' => 'A descrição deve conter no mínimo 2 caracteres.',
+            'description.max' => 'A descrição deve conter no máximo 20 caracteres.',
+            'barbershop_id.required' => 'Nenhuma barbearia foi selecionada.',
+        ];
+        $request->validate([
+            'description' => 'required|min:2|max:20',
+        ], $messages);
+
         $date = new \DateTime();
         $date->format('Y-m-d H:i:s');
 
@@ -43,19 +59,25 @@ class PeriodController extends Controller
 
     public function store(Request $request)
     {
-    }
+        $messages = [
+            'description.required' => 'A descrição é obrigatória.',
+            'description.min' => 'A descrição deve conter no mínimo 2 caracteres.',
+            'description.max' => 'A descrição deve conter no máximo 20 caracteres.',
+            'barbershop_id.required' => 'Nenhuma barbearia foi selecionada.',
+        ];
+        $request->validate([
+            'description' => 'required|min:2|max:20',
+        ], $messages);
 
-    public function getByDescription($description)
-    {
-        $period = Period::where('description', $description)->get()->first();
+        $date = new \DateTime();
+        $date->format('Y-m-d H:i:s');
 
-        if (isset($period)) {
-            return response()->json($period, 200);
-        }
+        $period = new Period();
+        $period->createdate = $date;
+        $period->description = $request->description;
+        $period->save();
 
-        return response()->json([
-            'message' => 'O período não foi encontrado!',
-        ], 404);
+        return redirect('/periodos');
     }
 
     public function showJson($id)
@@ -73,14 +95,34 @@ class PeriodController extends Controller
 
     public function show($id)
     {
+        $period = Period::find($id);
+
+        if (isset($period)) {
+            return view('period.show', compact('period'));
+        }
     }
 
     public function edit($id)
     {
+        $period = Period::find($id);
+
+        if (isset($period)) {
+            return view('period.edit', compact('period'));
+        }
     }
 
     public function updateJson(Request $request, $id)
     {
+        $messages = [
+            'description.required' => 'A descrição é obrigatória.',
+            'description.min' => 'A descrição deve conter no mínimo 2 caracteres.',
+            'description.max' => 'A descrição deve conter no máximo 20 caracteres.',
+            'barbershop_id.required' => 'Nenhuma barbearia foi selecionada.',
+        ];
+        $request->validate([
+            'description' => 'required|min:2|max:20',
+        ], $messages);
+
         $period = Period::find($id);
 
         if (isset($period)) {
@@ -97,6 +139,24 @@ class PeriodController extends Controller
 
     public function update(Request $request, $id)
     {
+        $messages = [
+            'description.required' => 'A descrição é obrigatória.',
+            'description.min' => 'A descrição deve conter no mínimo 2 caracteres.',
+            'description.max' => 'A descrição deve conter no máximo 20 caracteres.',
+            'barbershop_id.required' => 'Nenhuma barbearia foi selecionada.',
+        ];
+        $request->validate([
+            'description' => 'required|min:2|max:20',
+        ], $messages);
+
+        $period = Period::find($id);
+
+        if (isset($period)) {
+            $period->description = $request->description;
+            $period->save();
+
+            return redirect('/periodos');
+        }
     }
 
     public function destroyJson($id)
@@ -118,5 +178,12 @@ class PeriodController extends Controller
 
     public function destroy($id)
     {
+        $period = Period::find($id);
+
+        if (isset($period)) {
+            $period->delete();
+
+            return redirect('/periodos');
+        }
     }
 }

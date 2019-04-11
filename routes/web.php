@@ -4,6 +4,14 @@ Route::get('/', function () {
     return view('index');
 });
 
+// Rotas de Tipos de Remunerações
+Route::prefix('/tiposderemuneracoes')->group(function () {
+    Route::get('/', 'TypeOfRemunerationController@index');
+    Route::get('/criar', 'TypeOfRemunerationController@create');
+    Route::get('/{id}/detalhes', 'TypeOfRemunerationController@show');
+    Route::get('/editar/{id}', 'TypeOfRemunerationController@edit');
+});
+
 // Rotas de Cores
 Route::prefix('/cores')->group(function () {
     Route::get('/', 'ColorController@index');

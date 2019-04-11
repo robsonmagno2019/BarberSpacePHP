@@ -51,6 +51,14 @@
             </span>
           </a>
         </li>
+        <li>
+          <a href="{{ '/tiposderemuneracoes' }}">
+            <i class="fa fa-th"></i> <span>Tipos de Remunerações</span>
+            <span class="pull-right-container">
+              <small class="label pull-right bg-green">Hot</small>
+            </span>
+          </a>
+        </li>
         
         <li class="treeview">
           <a href="#">

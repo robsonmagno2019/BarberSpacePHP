@@ -61,6 +61,14 @@
           </a>
         </li>
         <li>
+          <a href="{{ '/status-dos-vales' }}">
+            <i class="fa fa-th"></i> <span>Status dos Vales</span>
+            <span class="pull-right-container">
+              <small class="label pull-right bg-green">Hot</small>
+            </span>
+          </a>
+        </li>
+        <li>
           <a href="{{ '/tipos-de-remuneracoes' }}">
             <i class="fa fa-th"></i> <span>Tipos de Remunerações</span>
             <span class="pull-right-container">

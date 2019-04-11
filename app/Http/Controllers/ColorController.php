@@ -37,6 +37,19 @@ class ColorController extends Controller
 
     public function storeJson(Request $request)
     {
+        $messages = [
+            'name.required' => 'A descrição é obrigatória.',
+            'name.min' => 'A descrição deve conter no mínimo 2 caracteres.',
+            'name.max' => 'A descrição deve conter no máximo 20 caracteres.',
+            'code.required' => 'A descrição é obrigatória.',
+            'code.min' => 'A descrição deve conter no mínimo 7 caracteres.',
+            'code.max' => 'A descrição deve conter no máximo 10 caracteres.',
+        ];
+        $request->validate([
+            'name' => 'required|min:2|max:20',
+            'code' => 'required|min:7|max:10',
+        ], $messages);
+
         $date = new \DateTime();
         $date->format('Y-m-d H:i:s');
 
@@ -51,6 +64,29 @@ class ColorController extends Controller
 
     public function store(Request $request)
     {
+        $messages = [
+            'name.required' => 'A descrição é obrigatória.',
+            'name.min' => 'A descrição deve conter no mínimo 2 caracteres.',
+            'name.max' => 'A descrição deve conter no máximo 20 caracteres.',
+            'code.required' => 'A descrição é obrigatória.',
+            'code.min' => 'A descrição deve conter no mínimo 7 caracteres.',
+            'code.max' => 'A descrição deve conter no máximo 10 caracteres.',
+        ];
+        $request->validate([
+            'name' => 'required|min:2|max:20',
+            'code' => 'required|min:7|max:10',
+        ], $messages);
+
+        $date = new \DateTime();
+        $date->format('Y-m-d H:i:s');
+
+        $color = new Color();
+        $color->createdate = $date;
+        $color->name = $request->name;
+        $color->code = $request->code;
+        $color->save();
+
+        return redirect('/cores');
     }
 
     public function showJson($id)
@@ -86,6 +122,19 @@ class ColorController extends Controller
 
     public function updateJson(Request $request, $id)
     {
+        $messages = [
+            'name.required' => 'A descrição é obrigatória.',
+            'name.min' => 'A descrição deve conter no mínimo 2 caracteres.',
+            'name.max' => 'A descrição deve conter no máximo 20 caracteres.',
+            'code.required' => 'A descrição é obrigatória.',
+            'code.min' => 'A descrição deve conter no mínimo 7 caracteres.',
+            'code.max' => 'A descrição deve conter no máximo 10 caracteres.',
+        ];
+        $request->validate([
+            'name' => 'required|min:2|max:20',
+            'code' => 'required|min:7|max:10',
+        ], $messages);
+
         $color = Color::find($id);
 
         if (isset($color)) {
@@ -103,6 +152,28 @@ class ColorController extends Controller
 
     public function update(Request $request, $id)
     {
+        $messages = [
+            'name.required' => 'A descrição é obrigatória.',
+            'name.min' => 'A descrição deve conter no mínimo 2 caracteres.',
+            'name.max' => 'A descrição deve conter no máximo 20 caracteres.',
+            'code.required' => 'A descrição é obrigatória.',
+            'code.min' => 'A descrição deve conter no mínimo 7 caracteres.',
+            'code.max' => 'A descrição deve conter no máximo 10 caracteres.',
+        ];
+        $request->validate([
+            'name' => 'required|min:2|max:20',
+            'code' => 'required|min:7|max:10',
+        ], $messages);
+
+        $color = Color::find($id);
+
+        if (isset($color)) {
+            $color->name = $request->name;
+            $color->code = $request->code;
+            $color->save();
+
+            return redirect('/cores');
+        }
     }
 
     public function destroyJson($id)
@@ -124,5 +195,12 @@ class ColorController extends Controller
 
     public function destroy($id)
     {
+        $color = Color::find($id);
+
+        if (isset($color)) {
+            $color->delete();
+
+            return redirect('/cores');
+        }
     }
 }

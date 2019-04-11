@@ -1,6 +1,6 @@
-@extends('layouts.app-admin', ["current" => "order-status"])
+@extends('layouts.app-admin', ["current" => "payday-advance"])
 
-@section('title', 'Status dos Pedidos')
+@section('title', 'Status dos Vales')
 
 @section('content')
 
@@ -12,19 +12,19 @@
   </h1>
   <ol class="breadcrumb">
     <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
-    <li><a href="#">Status dos Pedidos</a></li>
-    <li class="active">Novo</li>
+    <li><a href="#">Categorias</a></li>
+    <li class="active">Editar</li>
   </ol>
 </section>
 
 <!-- Main content -->
 <section class="content">
-  <form action="/status-dos-pedidos" method="POST" role="form">
+  <form action="/status-dos-vales/{{ $paydayAdvanceStatus->id }}" method="POST" role="form">
     @csrf
     <!-- Default box -->
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Novo Status de Pedido</h3>
+        <h3 class="box-title">Editar Categoria</h3>
 
         <div class="box-tools pull-right">
           <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
@@ -39,7 +39,8 @@
           <div class="form-group">
             <label for="description">Descrição</label>
             <div class="form-group {{ $errors->has('description') ? 'has-error' : ''}}">
-            <input type="text" class="form-control" id="description" name="description" placeholder="Digite aqui o status do pedido.">
+            <input type="text" class="form-control" id="description" name="description" placeholder="Digite aqui a categoria."
+            value="{{ $paydayAdvanceStatus->description }}">
             @if($errors->has('description'))
               <div class="text-danger">
                 {{ $errors->first('description') }}
@@ -52,7 +53,7 @@
       </div>
       <!-- /.box-body -->
       <div class="box-footer">
-        <a href="{{ '/status-dos-pedidos' }}" class="btn btn-default btn-sm">Voltar</a>
+        <a href="{{ '/status-dos-vales' }}" class="btn btn-default btn-sm">Voltar</a>
         <button type="submit" class="btn btn-sm btn-success"><span class="fa fa-save"></span> Salvar</button>
       </div>
       <!-- /.box-footer-->

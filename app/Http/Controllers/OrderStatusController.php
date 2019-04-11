@@ -74,6 +74,8 @@ class OrderStatusController extends Controller
         $orderStatus->createdate = $date;
         $orderStatus->description = $request->description;
         $orderStatus->save();
+
+        return redirect('/status-dos-pedidos');
     }
 
     public function showJson($id)

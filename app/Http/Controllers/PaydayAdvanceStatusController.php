@@ -22,14 +22,29 @@ class PaydayAdvanceStatusController extends Controller
 
     public function index()
     {
+        $paydayAdvanceStatuses = PaydayAdvanceStatus::all();
+
+        if (isset($paydayAdvanceStatuses)) {
+            return view('payday-advance-status.index', compact('paydayAdvanceStatuses'));
+        }
     }
 
     public function create()
     {
+        return view('payday-advance-status.create');
     }
 
     public function storeJson(Request $request)
     {
+        $messages = [
+            'description.required' => 'A descrição é obrigatória.',
+            'description.min' => 'A descrição deve conter no mínimo 2 caracteres.',
+            'description.max' => 'A descrição deve conter no máximo 20 caracteres.',
+        ];
+        $request->validate([
+            'description' => 'required|min:2|max:20',
+        ], $messages);
+
         $date = new \DateTime();
         $date->format('Y-m-d H:i:s');
 
@@ -43,6 +58,24 @@ class PaydayAdvanceStatusController extends Controller
 
     public function store(Request $request)
     {
+        $messages = [
+            'description.required' => 'A descrição é obrigatória.',
+            'description.min' => 'A descrição deve conter no mínimo 2 caracteres.',
+            'description.max' => 'A descrição deve conter no máximo 20 caracteres.',
+        ];
+        $request->validate([
+            'description' => 'required|min:2|max:20',
+        ], $messages);
+
+        $date = new \DateTime();
+        $date->format('Y-m-d H:i:s');
+
+        $paydayAdvanceStatus = new PaydayAdvanceStatus();
+        $paydayAdvanceStatus->createdate = $date;
+        $paydayAdvanceStatus->description = $request->description;
+        $paydayAdvanceStatus->save();
+
+        return redirect('/status-dos-vales');
     }
 
     public function showJson($id)
@@ -60,10 +93,20 @@ class PaydayAdvanceStatusController extends Controller
 
     public function show($id)
     {
+        $paydayAdvanceStatus = PaydayAdvanceStatus::find($id);
+
+        if (isset($paydayAdvanceStatus)) {
+            return view('payday-advance-status.show', compact('paydayAdvanceStatus'));
+        }
     }
 
     public function edit($id)
     {
+        $paydayAdvanceStatus = PaydayAdvanceStatus::find($id);
+
+        if (isset($paydayAdvanceStatus)) {
+            return view('payday-advance-status.edit', compact('paydayAdvanceStatus'));
+        }
     }
 
     public function updateJson(Request $request, $id)

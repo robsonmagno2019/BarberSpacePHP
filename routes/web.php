@@ -40,10 +40,22 @@ Route::prefix('/duracoes-de-contratos')->group(function () {
 Route::prefix('/status-dos-pedidos')->group(function () {
     Route::get('/', 'OrderStatusController@index');
     Route::get('/criar', 'OrderStatusController@create');
+    Route::post('/', 'OrderStatusController@store');
     Route::get('/{id}/detalhes', 'OrderStatusController@show');
     Route::get('/editar/{id}', 'OrderStatusController@edit');
+    Route::post('/{id}', 'OrderStatusController@update');
+    Route::post('/deletar/{id}', 'OrderStatusController@destroy');
 });
 
+Route::prefix('/status-dos-vales')->group(function () {
+    Route::get('/', 'PaydayAdvanceStatusController@index');
+    Route::get('/criar', 'PaydayAdvanceStatusController@create');
+    Route::post('/', 'PaydayAdvanceStatusController@store');
+    Route::get('/{id}/detalhes', 'PaydayAdvanceStatusController@show');
+    Route::get('/editar/{id}', 'PaydayAdvanceStatusController@edit');
+    Route::post('/{id}', 'PaydayAdvanceStatusController@update');
+    Route::post('/deletar/{id}', 'PaydayAdvanceStatusController@destroy');
+});
 // Rotas de Tipos de Remunerações
 Route::prefix('/tipos-de-remuneracoes')->group(function () {
     Route::get('/', 'TypeOfRemunerationController@index');
